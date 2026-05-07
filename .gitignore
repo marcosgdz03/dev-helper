@@ -16,5 +16,6 @@ Thumbs.db
 # Go
 go.sum.bak
 
-# Config (keep example, ignore actual)
-# .devhelper.yaml (user-specific configs)
+agents.md
+plan.md
+tasks.md
