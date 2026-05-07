@@ -1,0 +1,14 @@
+package com.devhelper.service;
+import com.devhelper.model.User;
+import org.springframework.stereotype.Service;
+import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+@Service
+public class UserService {
+    private final Map<String, User> users = new ConcurrentHashMap<>();
+    public UserService() { User u = new User(); u.setId("1"); u.setName("Alice"); u.setEmail("alice@example.com"); users.put("1", u); }
+    public List<User> findAll() { return new ArrayList<>(users.values()); }
+    public Optional<User> findById(String id) { return Optional.ofNullable(users.get(id)); }
+    public User save(User user) { String id = String.valueOf(users.size() + 1); user.setId(id); users.put(id, user); return user; }
+    public User update(String id, User user) { if (!users.containsKey(id)) throw new IllegalArgumentException("not found"); user.setId(id); users.put(id, user); return user; }
+    public void deleteById(String id) { users.remove(id); }
+}

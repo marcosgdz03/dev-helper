@@ -1,0 +1,14 @@
+package com.devhelper.controller;
+import com.devhelper.model.User; import com.devhelper.service.UserService;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+@RestController @RequestMapping("/api/v1/users")
+public class UserController {
+    private final UserService service;
+    public UserController(UserService s) { service = s; }
+    @GetMapping public List<User> get() { return service.findAll(); }
+    @PostMapping public User create(@RequestBody User u) { return service.save(u); }
+    @GetMapping("/{id}") public User getOne(@PathVariable String id) { return service.findById(id).orElseThrow(() -> new RuntimeException("not found")); }
+    @PutMapping("/{id}") public User update(@PathVariable String id, @RequestBody User u) { return service.update(id, u); }
+    @DeleteMapping("/{id}") @ResponseStatus(204) public void delete(@PathVariable String id) { service.deleteById(id); }
+}

@@ -1,0 +1,41 @@
+// Package main is the entry point for {{ .ProjectName }}.
+package main
+
+import (
+	"log"
+	"os"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+)
+
+const defaultPort = "8080"
+
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+	}
+
+	app := fiber.New()
+	app.Use(logger.New())
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"status": "ok",
+			"service": "{{ .ProjectName }}",
+		})
+	})
+
+	users := app.Group("/api/v1/users")
+	users.Get("", getUsers)
+	users.Post("", createUser)
+	users.Get("/:id", getUser)
+	users.Put("/:id", updateUser)
+	users.Delete("/:id", deleteUser)
+
+	log.Printf("{{ .ProjectName }} starting on :%s", port)
+	if err := app.Listen(":" + port); err != nil {
+		log.Fatalf("server failed: %v", err)
+	}
+}
