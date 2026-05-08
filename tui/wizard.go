@@ -25,18 +25,20 @@ type Item struct {
 
 // Wizard is the Bubble Tea model for the scaffolding wizard.
 type Wizard struct {
-	step           WizardStep
-	languages      []Item
-	frameworks     []Item
-	currentLang    string
-	currentFw      string
-	projectName    string
-	textInput      textinput.Model
-	ShouldScaffold bool
-	Selections     Selections
-	style          styleModel
-	width          int
-	height         int
+	step             WizardStep
+	languages        []Item
+	frameworks       []Item
+	currentLang      string
+	currentFw        string
+	projectName      string
+	textInput        textinput.Model
+	ShouldScaffold   bool
+	Selections       Selections
+	style           styleModel
+	width           int
+	height          int
+	selectedLangIndex int
+	selectedFwIndex   int
 }
 
 // Selections holds the final project selections from the wizard.
@@ -66,14 +68,16 @@ func NewWizard() Wizard {
 	ti.CharLimit = 50
 
 	return Wizard{
-		step:       StepSelectLanguage,
-		languages: []Item{
+		step:            StepSelectLanguage,
+		languages:       []Item{
 			{Title: "Go", Value: "go"},
 			{Title: "Node.js", Value: "node"},
 			{Title: "Python", Value: "python"},
 			{Title: "Java", Value: "java"},
 		},
-		textInput: ti,
+		textInput:       ti,
+		selectedLangIndex: 0,
+		selectedFwIndex:    -1,
 		style: styleModel{
 			title:      lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("105")).MarginBottom(1),
 			subtitle:   lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MarginBottom(2),
@@ -118,10 +122,12 @@ func (w Wizard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (w *Wizard) handleEnter() (tea.Model, tea.Cmd) {
 	switch w.step {
 	case StepSelectLanguage:
-		w.currentLang = w.textInput.Value()
+		w.currentLang = w.languages[w.selectedLangIndex].Value
 		w.loadFrameworks()
+		w.selectedFwIndex = 0
 		w.step = StepSelectFramework
 	case StepSelectFramework:
+		w.currentFw = w.frameworks[w.selectedFwIndex].Value
 		w.step = StepEnterProjectName
 	case StepEnterProjectName:
 		w.projectName = w.textInput.Value()
@@ -139,24 +145,34 @@ func (w *Wizard) handleEnter() (tea.Model, tea.Cmd) {
 }
 
 func (w *Wizard) handleUp() (tea.Model, tea.Cmd) {
-	if len(w.languages) > 0 {
-		if w.step == StepSelectLanguage {
-		} else if w.step == StepSelectFramework && len(w.frameworks) > 1 {
+	switch w.step {
+	case StepSelectLanguage:
+		if w.selectedLangIndex > 0 {
+			w.selectedLangIndex--
+		}
+	case StepSelectFramework:
+		if w.selectedFwIndex > 0 {
+			w.selectedFwIndex--
 		}
 	}
 	return w, nil
 }
 
 func (w *Wizard) handleDown() (tea.Model, tea.Cmd) {
-	if len(w.languages) > 0 {
-		if w.step == StepSelectLanguage {
-		} else if w.step == StepSelectFramework && len(w.frameworks) > 1 {
+	switch w.step {
+	case StepSelectLanguage:
+		if w.selectedLangIndex < len(w.languages)-1 {
+			w.selectedLangIndex++
+		}
+	case StepSelectFramework:
+		if w.selectedFwIndex < len(w.frameworks)-1 {
+			w.selectedFwIndex++
 		}
 	}
 	return w, nil
 }
 
-func (w Wizard) loadFrameworks() {
+func (w *Wizard) loadFrameworks() {
 	switch w.currentLang {
 	case "go":
 		w.frameworks = []Item{
@@ -198,8 +214,12 @@ func (w Wizard) View() string {
 func (w Wizard) renderLanguageSelection() string {
 	var b string
 	b += w.style.title.Render("Choose a Language\n")
-	for _, l := range w.languages {
-		b += w.style.deselected.Render("  " + l.Title + "\n")
+	for i, l := range w.languages {
+		if i == w.selectedLangIndex {
+			b += w.style.selected.Render("▶ " + l.Title + "\n")
+		} else {
+			b += w.style.deselected.Render("  " + l.Title + "\n")
+		}
 	}
 	b += w.style.help.Render("↑/↓ to select • Enter to continue • q to quit")
 	return b
@@ -208,8 +228,12 @@ func (w Wizard) renderLanguageSelection() string {
 func (w Wizard) renderFrameworkSelection() string {
 	var b string
 	b += w.style.title.Render("Choose a Framework\n")
-	for _, f := range w.frameworks {
-		b += w.style.deselected.Render("  " + f.Title + "\n")
+	for i, f := range w.frameworks {
+		if i == w.selectedFwIndex {
+			b += w.style.selected.Render("▶ " + f.Title + "\n")
+		} else {
+			b += w.style.deselected.Render("  " + f.Title + "\n")
+		}
 	}
 	b += w.style.help.Render("↑/↓ to select • Enter to continue • q to quit")
 	return b

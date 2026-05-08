@@ -12,7 +12,7 @@ import (
 var (
 	cfgFile     string
 	interactive bool
-	rootCmdVersion = "v0.1.0"
+	rootCmdVersion = "v0.1.1"
 )
 
 // rootCmd is the root command for dev-helper.
