@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"{{ .ProjectName }}/internal/handler"
 )
 
 const (
@@ -38,8 +39,8 @@ func main() {
 	{
 		users := v1.Group("/users")
 		{
-			users.GET("", getUsers)
-			users.POST("", createUser)
+			users.GET("", handler.GetUsers)
+			users.POST("", handler.CreateUser)
 		}
 	}
 

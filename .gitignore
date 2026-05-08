@@ -15,6 +15,7 @@ Thumbs.db
 
 # Go
 go.sum.bak
+*.out
 
 agents.md
 plan.md

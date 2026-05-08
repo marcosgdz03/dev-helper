@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"{{ .ProjectName }}/internal/handler"
 )
 
 const defaultPort = "8080"
@@ -28,11 +29,11 @@ func main() {
 	})
 
 	users := app.Group("/api/v1/users")
-	users.Get("", getUsers)
-	users.Post("", createUser)
-	users.Get("/:id", getUser)
-	users.Put("/:id", updateUser)
-	users.Delete("/:id", deleteUser)
+	users.Get("", handler.GetUsers)
+	users.Post("", handler.CreateUser)
+	users.Get("/:id", handler.GetUser)
+	users.Put("/:id", handler.UpdateUser)
+	users.Delete("/:id", handler.DeleteUser)
 
 	log.Printf("{{ .ProjectName }} starting on :%s", port)
 	if err := app.Listen(":" + port); err != nil {

@@ -18,11 +18,13 @@ var users = map[string]User{
 	"1": {ID: "1", Name: "Alice", Email: "alice@example.com"},
 }
 
-func getUsers(c *gin.Context) {
+// GetUsers returns all users.
+func GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
-func getUser(c *gin.Context) {
+// GetUser returns a user by ID.
+func GetUser(c *gin.Context) {
 	id := c.Param("id")
 	u, ok := users[id]
 	if !ok {
@@ -32,7 +34,8 @@ func getUser(c *gin.Context) {
 	c.JSON(http.StatusOK, u)
 }
 
-func createUser(c *gin.Context) {
+// CreateUser creates a new user.
+func CreateUser(c *gin.Context) {
 	var u User
 	if err := c.ShouldBindJSON(&u); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -43,7 +46,8 @@ func createUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, u)
 }
 
-func updateUser(c *gin.Context) {
+// UpdateUser updates an existing user.
+func UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 	var u User
 	if err := c.ShouldBindJSON(&u); err != nil {
@@ -58,7 +62,8 @@ func updateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, u)
 }
 
-func deleteUser(c *gin.Context) {
+// DeleteUser deletes a user by ID.
+func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 	if _, ok := users[id]; !ok {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})

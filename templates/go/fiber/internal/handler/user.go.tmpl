@@ -14,11 +14,13 @@ var users = map[string]User{
 	"1": {ID: "1", Name: "Alice", Email: "alice@example.com"},
 }
 
-func getUsers(c *fiber.Ctx) error {
+// GetUsers returns all users.
+func GetUsers(c *fiber.Ctx) error {
 	return c.JSON(users)
 }
 
-func getUser(c *fiber.Ctx) error {
+// GetUser returns a user by ID.
+func GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	u, ok := users[id]
 	if !ok {
@@ -27,7 +29,8 @@ func getUser(c *fiber.Ctx) error {
 	return c.JSON(u)
 }
 
-func createUser(c *fiber.Ctx) error {
+// CreateUser creates a new user.
+func CreateUser(c *fiber.Ctx) error {
 	var u User
 	if err := c.BodyParser(&u); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": err.Error()})
@@ -37,7 +40,8 @@ func createUser(c *fiber.Ctx) error {
 	return c.Status(201).JSON(u)
 }
 
-func updateUser(c *fiber.Ctx) error {
+// UpdateUser updates an existing user.
+func UpdateUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var u User
 	if err := c.BodyParser(&u); err != nil {
@@ -50,7 +54,8 @@ func updateUser(c *fiber.Ctx) error {
 	return c.JSON(u)
 }
 
-func deleteUser(c *fiber.Ctx) error {
+// DeleteUser deletes a user by ID.
+func DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	if _, ok := users[id]; !ok {
 		return c.Status(404).JSON(fiber.Map{"error": "user not found"})
