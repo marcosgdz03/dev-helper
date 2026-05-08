@@ -17,6 +17,7 @@
 
 [![CI](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcosgdz03/dev-helper/blob/master/LICENSE.md)
+[![Release](https://github.com/marcosgdz03/dev-helper/actions/workflows/release.yml/badge.svg)](https://github.com/marcosgdz03/dev-helper/actions/workflows/release.yml)
 
 ## Table of Contents
 - [Quick Start](#quick-start)
