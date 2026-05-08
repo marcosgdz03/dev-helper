@@ -1,0 +1,11 @@
+# Code Owners
+# Only the repository owner can approve changes and create releases.
+
+# All files require owner review
+* @marcosgdz03
+
+# CI/CD workflows require owner review
+.github/ @marcosgdz03
+
+# Releases require owner review
+.github/workflows/release.yml @marcosgdz03

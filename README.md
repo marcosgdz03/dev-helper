@@ -15,21 +15,20 @@
 - 🔌 **Plugin-ready** — Interface-based extensibility for future plugins
 - 📦 **Single binary** — Cross-platform Go compilation
 
-## Architecture
+[![CI](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcosgdz03/dev-helper/blob/master/LICENSE.md)
 
-Clean architecture with strict separation of concerns:
-
-```
-dev-helper/
-├── cmd/              # Cobra CLI commands
-├── core/             # Business logic engine
-├── tui/              # Bubble Tea TUI wizard
-│   └── components/   # TUI widgets
-├── templates/        # Multi-language project templates
-├── plugins/          # Plugin interface definitions
-├── main.go           # Entry point
-└── .devhelper.yaml   # Configuration file
-```
+## Table of Contents
+- [Quick Start](#quick-start)
+- [CLI Commands](#cli-commands)
+- [Configuration](#configuration)
+- [Interactive TUI Wizard](#interactive-tui-wizard)
+- [Supported Stacks](#supported-stacks)
+- [Plugin System](#plugin-system)
+- [Project Structure](#project-structure)
+- [Building and Distributing](#building-and-distributing)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Quick Start
 
@@ -41,7 +40,7 @@ dev-helper/
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/your-org/dev-helper.git
+git clone https://github.com/marcosgdz03/dev-helper.git
 cd dev-helper
 
 # Download dependencies
@@ -179,73 +178,19 @@ type Plugin interface {
 }
 ```
 
-## Workflow
-
-### Agent System
-dev-helper is built using an autonomous multi-agent pipeline:
-
-1. **architect** → System design
-2. **code-agent** → Implementation
-3. **optimizer** → Performance validation
-4. **reviewer** → Code review
-
-### Skill Router
-Each subsystem is matched to the best-fit skill:
-
-| Subsystem | Skill |
-|---|---|
-| Core Engine | system-architecture-design |
-| CLI Commands | backend-api-universal |
-| TUI Wizard | frontend-universal-ui |
-| Docker Support | devops-docker-ci |
-| Testing | testing-universal |
-| Config | database-schema-design |
-
 ## Project Structure
-
-See the full file tree below:
 
 ```
 dev-helper/
-├── README.md
-├── plan.md
-├── tasks.md
-├── agents.md
-├── Makefile
-├── Dockerfile
-├── .devhelper.yaml
-├── .gitignore
-├── go.mod
-├── go.sum
 ├── main.go
-├── cmd/
-│   ├── root.go
-│   ├── init.go
-│   ├── generate.go
-│   ├── dockerize.go
-│   ├── test.go
-│   └── lint.go
-├── core/
-│   ├── scaffolder.go
-│   ├── templater.go
-│   ├── executor.go
-│   ├── config.go
-│   └── plugin.go
-├── tui/
-│   ├── app.go
-│   ├── wizard.go
-│   └── components/
-│       ├── language_select.go
-│       ├── framework_select.go
-│       └── summary.go
-├── templates/
-│   ├── go/gin/
-│   ├── go/fiber/
-│   ├── node/express/
-│   ├── python/fastapi/
-│   └── java/springboot/
-└── plugins/
-    └── interface.go
+├── cmd/              # Cobra CLI commands
+├── core/             # Business logic engine
+├── tui/              # Bubble Tea TUI wizard
+│   └── components/   # TUI widgets
+├── templates/        # Multi-language project templates
+├── plugins/          # Plugin interface definitions
+├── .github/          # GitHub workflows & CODEOWNERS
+└── .devhelper.yaml   # Configuration file
 ```
 
 ## Building and Distributing
@@ -270,14 +215,14 @@ docker build -t dev-helper:latest .
 docker run --rm -v ${PWD}:/output dev-helper init --name my-api --lang go --framework gin
 ```
 
-## License
-
-MIT
-
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Push to the branch
-5. Open a Pull Request
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE.md](LICENSE.md) file for details.
+
+## Contributors
+
+- Marcos G. D. — Author & Maintainer
