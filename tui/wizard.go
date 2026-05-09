@@ -53,6 +53,7 @@ type Selections struct {
 type styleModel struct {
 	title      lipgloss.Style
 	subtitle   lipgloss.Style
+	header     lipgloss.Style
 	selected   lipgloss.Style
 	deselected lipgloss.Style
 	success    lipgloss.Style
@@ -81,18 +82,37 @@ func NewWizard() Wizard {
 		style: styleModel{
 			title:      lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("105")).MarginBottom(1),
 			subtitle:   lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MarginBottom(2),
+			header:     lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("208")).Padding(2, 15),
 			selected:   lipgloss.NewStyle().PaddingLeft(1).Foreground(lipgloss.Color("170")).Bold(true),
 			deselected: lipgloss.NewStyle().PaddingLeft(1),
 			success:    lipgloss.NewStyle().Foreground(lipgloss.Color("42")).Bold(true),
 			errorStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("196")).Bold(true),
 			help:       lipgloss.NewStyle().Foreground(lipgloss.Color("241")).MarginTop(2),
-			border:     lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color("105")).Padding(1, 2),
+			border:     lipgloss.NewStyle().Border(lipgloss.DoubleBorder()).BorderForeground(lipgloss.Color("208")).Padding(1, 2),
 		},
 	}
 }
 
 func (w Wizard) Init() tea.Cmd {
 	return textinput.Blink
+}
+
+func (w Wizard) renderHeader() string {
+	headerText := " ⚡ dev-helper ⚡ "
+	return w.style.header.Render(headerText + "\n")
+}
+
+func (w Wizard) renderStepIndicator() string {
+	stepNum := []string{"1/4", "2/4", "3/4", "4/4", "5/4"}[w.step]
+	stepNames := map[WizardStep]string{
+		StepSelectLanguage:    "Select Language",
+		StepSelectFramework:  "Select Framework",
+		StepEnterProjectName: "Enter Project Name",
+		StepSummary:          "Summary",
+		StepComplete:         "Project Scaffolded",
+	}
+	step := w.step
+	return w.style.subtitle.Render("Step " + stepNum + " — " + stepNames[step] + "\n")
 }
 
 func (w Wizard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -193,22 +213,31 @@ func (w Wizard) View() string {
 		return "Initializing..."
 	}
 
-	var s string
+	// Build header and step indicator
+	header := w.renderHeader()
+	stepIndicator := w.renderStepIndicator()
+	separator := "───────────────────────────────────────────────────\n\n"
 
+	// Build the content area based on current step
+	var contentArea string
 	switch w.step {
 	case StepSelectLanguage:
-		s = w.renderLanguageSelection()
+		contentArea = w.renderLanguageSelection()
 	case StepSelectFramework:
-		s = w.renderFrameworkSelection()
+		contentArea = w.renderFrameworkSelection()
 	case StepEnterProjectName:
-		s = w.renderNameInput()
+		contentArea = w.renderNameInput()
 	case StepSummary:
-		s = w.renderSummary()
+		contentArea = w.renderSummary()
 	case StepComplete:
-		s = w.renderComplete()
+		contentArea = w.renderComplete()
 	}
 
-	return w.style.border.Render(s)
+	// Combine all elements: header + step indicator + separator + content
+	viewContent := header + stepIndicator + separator + contentArea
+
+	// Apply border around the complete view
+	return w.style.border.Render(viewContent)
 }
 
 func (w Wizard) renderLanguageSelection() string {
