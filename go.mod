@@ -1,4 +1,4 @@
-module github.com/dev-helper/dev-helper
+module github.com/marcosgdz03/dev-helper
 
 go 1.24.2
 
