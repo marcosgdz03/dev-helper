@@ -17,7 +17,7 @@
 
 [![CI](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/marcosgdz03/dev-helper/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcosgdz03/dev-helper/blob/master/LICENSE.md)
-[![Release](https://github.com/marcosgdz03/dev-helper/actions/workflows/release.yml/badge.svg)](https://github.com/marcosgdz03/dev-helper/actions/workflows/release.yml)
+[![Version](https://img.shields.io/github/v/tag/marcosgdz03/dev-helper?label=version)](https://github.com/marcosgdz03/dev-helper/tags)
 
 ## Table of Contents
 - [Quick Start](#quick-start)
@@ -52,6 +52,44 @@ go build -o dev-helper .
 
 # Run
 ./dev-helper --help
+```
+
+### Global Installation (Recommended)
+
+#### Option 1: `go install` (Go 1.18+)
+The easiest way to use `dev-helper` from anywhere is to install it globally:
+
+```bash
+# Download and install to $GOPATH/bin (or $GOROOT/bin)
+go install github.com/dev-helper/dev-helper@latest
+
+# Verify installation
+dev-helper --help
+```
+
+> **Note:** Ensure `$GOPATH/bin` is in your `PATH` environment variable. By default this is `%USERPROFILE%\go\bin` on Windows or `$HOME/go/bin` on Unix.
+
+#### Option 2: Add binary to PATH manually (Windows)
+If you prefer building manually, you can add the `.exe` to your system or user PATH:
+
+```powershell
+# 1. Build the binary
+go build -o dev-helper.exe .
+
+# 2. Move it to a folder in your PATH (e.g., C:\bin)
+Copy-Item .\dev-helper.exe C:\bin\
+
+# 3. Add C:\bin to user PATH (run once)
+[user]::SetEnvironmentVariable("Path", "$env:Path;C:\bin", "User")
+
+# 4. Refresh current session
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+```
+
+Now `dev-helper` will be available from any terminal:
+```powershell
+# From anywhere
+dev-helper init --name my-api --lang go --framework gin
 ```
 
 ### Using Makefile
