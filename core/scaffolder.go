@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dev-helper/dev-helper/plugins"
+	"github.com/marcosgdz03/dev-helper/plugins"
 )
 
 // Scaffolder orchestrates project generation.

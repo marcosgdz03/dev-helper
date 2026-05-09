@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dev-helper/dev-helper/core"
-	"github.com/dev-helper/dev-helper/tui"
+	"github.com/marcosgdz03/dev-helper/core"
+	"github.com/marcosgdz03/dev-helper/tui"
 	"github.com/spf13/cobra"
 )
 

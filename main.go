@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dev-helper/dev-helper/cmd"
+	"github.com/marcosgdz03/dev-helper/cmd"
 )
 
 func main() {

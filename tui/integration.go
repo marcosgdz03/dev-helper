@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dev-helper/dev-helper/core"
+	"github.com/marcosgdz03/dev-helper/core"
 )
 
 // runScaffold executes the scaffolder using the wizard selections and

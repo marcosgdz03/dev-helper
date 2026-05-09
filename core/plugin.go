@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/dev-helper/dev-helper/plugins"
+	"github.com/marcosgdz03/dev-helper/plugins"
 )
 
 // GoPlugin implements plugins.Plugin for Go stacks (Gin or Fiber).
